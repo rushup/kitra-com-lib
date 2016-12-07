@@ -51,7 +51,7 @@ bool kitra_generate(char* packet,char* format,uint32_t* filter_mask, ...)
   char* packet_savepoint;
   
   param_index = 0;
-  *filter_mask = 0xFFFFFFFF;
+  *filter_mask = 0;
   token_format = my_strtok(format, ',', &format_savepoint, false);
   token_packet = my_strtok(packet, ',', &packet_savepoint, true);
   va_start ( arguments, filter_mask );
