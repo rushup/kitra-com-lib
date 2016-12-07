@@ -51,7 +51,7 @@ bool kitra_generate(char* packet,char* format,uint32_t* filter_mask, ...)
   char* packet_savepoint;
   
   param_index = 0;
-  *filter_mask = 0;
+  *filter_mask = 0xFFFFFFFF;
   token_format = my_strtok(format, ',', &format_savepoint, false);
   token_packet = my_strtok(packet, ',', &packet_savepoint, true);
   va_start ( arguments, filter_mask );
@@ -65,46 +65,46 @@ bool kitra_generate(char* packet,char* format,uint32_t* filter_mask, ...)
       else
         K_SET_BIT(*filter_mask,param_index - 1);
     }
-    if(strcmp(token_format,"%d") == 0 || strcmp(token_format,"%x") == 0)
+    if(strcmp(token_format,"%d") == 0 || strcmp(token_format,"%X") == 0)
     {
       if(strlen(token_packet) <= 0 || token_packet == 0)
         (va_arg ( arguments, uint32_t* ) );
       else {
         char* endptr;
-        long tmp =  strtol(token_packet,&endptr, token_format[1]=='x'?16:0); // 0 -> autofind base
+        long tmp =  strtol(token_packet,&endptr, token_format[1]=='X'?16:0); // 0 -> autofind base
         if(strlen(endptr) == 0 && (tmp != 0 || strcmp(token_packet,"0") == 0 || strcmp(token_packet,"000000") == 0 || strcmp(token_packet,"0x000000") == 0)) //strtol return 0 if error
           *(va_arg ( arguments, uint32_t* ) ) = tmp;
         else
-			return false;
+          return false;
       }
     }
-    else if(strcmp(token_format,"%hhd") == 0 || strcmp(token_format,"%hhx") == 0)
+    else if(strcmp(token_format,"%hhd") == 0 || strcmp(token_format,"%hhX") == 0)
     {
       if(strlen(token_packet) <= 0 || token_packet == 0)
         (va_arg ( arguments, uint8_t* ) );
       else {
         char* endptr;
-        long tmp =  strtol(token_packet,&endptr,token_format[3]=='x'?16:0);
+        long tmp =  strtol(token_packet,&endptr,token_format[3]=='X'?16:0);
         if(strlen(endptr) == 0 && (tmp != 0 || strcmp(token_packet,"0") == 0)) //strtol return 0 if error
           *(va_arg ( arguments, uint8_t* ) ) = tmp;
         else
           return false;
       }
     }
-    else if(strcmp(token_format,"%hd") == 0 || strcmp(token_format,"%hx") == 0)
+    else if(strcmp(token_format,"%hd") == 0 || strcmp(token_format,"%hX") == 0)
     {
       if(strlen(token_packet) <= 0 || token_packet == 0)
         (va_arg ( arguments, uint16_t* ) );
       else {
         char* endptr;
-        long tmp =  strtol(token_packet,&endptr,token_format[2]=='x'?16:0);
+        long tmp =  strtol(token_packet,&endptr,token_format[2]=='X'?16:0);
         if(strlen(endptr) == 0 && (tmp != 0 || strcmp(token_packet,"0") == 0)) //strtol return 0 if error
           *(va_arg ( arguments, uint16_t* ) ) = tmp;
         else
           return false;
       }
     }
-    else if(strcmp(token_format,"%f") == 0)
+    else if(strcmp(token_format,"%f") == 0 || strcmp(token_format,"%.6g") == 0)
     {
       if(strlen(token_packet) <= 0 || token_packet == 0)
         (va_arg ( arguments, float* ) );
