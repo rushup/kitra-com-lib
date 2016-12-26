@@ -51,7 +51,7 @@ bool kitra_generate(char* packet,char* format,uint32_t* filter_mask, ...)
   char* packet_savepoint;
   
   param_index = 0;
-  *filter_mask = 0;
+  *filter_mask = 0xFFFFFFFF;
   token_format = my_strtok(format, ',', &format_savepoint, false);
   token_packet = my_strtok(packet, ',', &packet_savepoint, true);
   va_start ( arguments, filter_mask );
@@ -62,9 +62,10 @@ bool kitra_generate(char* packet,char* format,uint32_t* filter_mask, ...)
     {
       if(param_index <= 0)
         return false;
-      else
-        K_SET_BIT(*filter_mask,param_index - 1);
     }
+    else
+      K_CLEAR_BIT(*filter_mask,param_index - 1);
+    
     if(strcmp(token_format,"%d") == 0 || strcmp(token_format,"%X") == 0)
     {
       if(strlen(token_packet) <= 0 || token_packet == 0)

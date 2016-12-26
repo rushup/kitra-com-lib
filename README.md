@@ -8,11 +8,11 @@ Works with Arduino-IDE too, you just need to rename .c files to .cpp
 On Artik run
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make
+cmake . && make
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 to verify the compilation.
 
- 
+
 
 [rushup.tech](rushup.tech)
