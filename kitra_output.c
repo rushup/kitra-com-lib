@@ -9,7 +9,10 @@
 static char buffer_tx[MAX_BUFFER_SIZE];
 volatile bool tx_lock = false;
 
-
+void k_unlock_tx()
+{
+    tx_lock = false;
+}
 /*
 * @param k_obj
 * @param optional_mask  bit as 1 means that must not be transmitted

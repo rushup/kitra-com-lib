@@ -313,6 +313,7 @@ static const char* K_OUTPUT_I2C_READ_RESPONSE_PARAMS = "%d,%hhX,%hhX,%hhX,%hhX,%
 
 bool k_send_packet(void* k_obj,uint32_t optional_mask);
 void kitra_platform_send(char* buffer, uint32_t length);
+void k_unlock_tx();
 
 #ifdef __cplusplus
 }

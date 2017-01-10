@@ -8,6 +8,17 @@
 
 char buffer_rx[MAX_BUFFER_SIZE];
 
+eparse_result k_parse_packet_safe(const char* _packet,void* k_obj, uint32_t* packet_size, uint32_t* optional_mask)
+{
+    eparse_result ris;
+    char* packet;
+    packet = malloc(strlen(_packet) + 1);
+    strcpy(packet,_packet);
+    ris = k_parse_packet(packet,k_obj, packet_size, optional_mask);
+    free(packet);
+    return ris;
+}
+
 //return true success, false failure
 eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, uint32_t* optional_mask)
 {

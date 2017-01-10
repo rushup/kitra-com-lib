@@ -514,6 +514,7 @@ static const char* K_INPUT_POS_PEAK_DETECTOR_PARAMS = "%d";
 
 
 eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, uint32_t* optional_mask);
+eparse_result k_parse_packet_safe(const char* _packet,void* k_obj, uint32_t* packet_size, uint32_t* optional_mask);
 
 #ifdef __cplusplus
 }
