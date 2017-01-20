@@ -361,7 +361,7 @@ typedef struct{
   uint32_t loop_delay;
   uint8_t autostart;
 }k_input_ldrgb_set_managed;
-#define K_INPUT_LDRGB_SET_MANAGED_N_PARAMS 8
+#define K_INPUT_LDRGB_SET_MANAGED_N_PARAMS 9
 static const char* K_INPUT_LDRGB_SET_MANAGED_PARAMS = "%d,%hhd,%hhd,%X,%hhd,%d,%hhd,%d,%hhd";
 
 typedef struct{

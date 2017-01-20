@@ -183,18 +183,18 @@ static const char* K_OUTPUT_LUX_MANAGED_NOTIFICATION_PARAMS = "%d,%hhd,%hhX";
 //POSITION (ACCELLEROMETER/GYRO/MAGNET)
 typedef struct{
   uint32_t id;
-  uint16_t acc_x;
-  uint16_t acc_y;
-  uint16_t acc_z;
-  uint16_t angle_x;
-  uint16_t angle_y;
-  uint16_t angle_z;
-  uint16_t magnet_x;
-  uint16_t magnet_y;
-  uint16_t magnet_z;
+  int32_t acc_x;
+  int32_t acc_y;
+  int32_t acc_z;
+  int32_t angle_x;
+  int32_t angle_y;
+  int32_t angle_z;
+  int32_t magnet_x;
+  int32_t magnet_y;
+  int32_t magnet_z;
 }k_output_pos_read_raw_response;
 #define K_OUTPUT_POS_READ_RAW_RESPONSE_N_PARAMS 10
-static const char* K_OUTPUT_POS_READ_RAW_RESPONSE_PARAMS = "%d,%hd,%hd,%hd,%hd,%hd,%hd,%hd,%hd,%hd";
+static const char* K_OUTPUT_POS_READ_RAW_RESPONSE_PARAMS = "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d";
 
 typedef struct{
   uint32_t id;
@@ -207,18 +207,18 @@ static const char* K_OUTPUT_POS_READ_EULER_RESPONSE_PARAMS = "%d,%hd,%hd,%hd";
 
 typedef struct{
   uint32_t id;
-  uint16_t acc_x;
-  uint16_t acc_y;
-  uint16_t acc_z;
-  uint16_t angle_x;
-  uint16_t angle_y;
-  uint16_t angle_z;
-  uint16_t magnet_x;
-  uint16_t magnet_y;
-  uint16_t magnet_z;
+  int32_t acc_x;
+  int32_t acc_y;
+  int32_t acc_z;
+  int32_t angle_x;
+  int32_t angle_y;
+  int32_t angle_z;
+  int32_t magnet_x;
+  int32_t magnet_y;
+  int32_t magnet_z;
 }k_output_pos_notification_raw;
 #define K_OUTPUT_POS_NOTIFICATION_RAW_N_PARAMS 10
-static const char* K_OUTPUT_POS_NOTIFICATION_RAW_PARAMS = "%d,%hd,%hd,%hd,%hd,%hd,%hd,%hd,%hd,%hd";
+static const char* K_OUTPUT_POS_NOTIFICATION_RAW_PARAMS = "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d";
 
 typedef struct{
   uint32_t id;
