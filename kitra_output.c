@@ -615,24 +615,24 @@ bool k_send_packet(void* k_obj, uint32_t optional_mask)
   case K_INPUT_LDRGB_SET_MANAGED:
     strcpy(format, K_INPUT_LDRGB_SET_MANAGED_PARAMS);
     kitra_generate_packet(buffer_tx,MAX_BUFFER_SIZE,format,optional_mask,
-           &(( k_input_ldrgb_set_managed*) k_obj)->id,
-           &(( k_input_ldrgb_set_managed*) k_obj)->pin,
-           &(( k_input_ldrgb_set_managed*) k_obj)->effect,
-           &(( k_input_ldrgb_set_managed*) k_obj)->color_override,
-           &(( k_input_ldrgb_set_managed*) k_obj)->intensity_override,
-           &(( k_input_ldrgb_set_managed*) k_obj)->duration,
-           &(( k_input_ldrgb_set_managed*) k_obj)->loop,
-           &(( k_input_ldrgb_set_managed*) k_obj)->loop_delay,
-           &(( k_input_ldrgb_set_managed*) k_obj)->autostart
+           (( k_input_ldrgb_set_managed*) k_obj)->id,
+           (( k_input_ldrgb_set_managed*) k_obj)->pin,
+           (( k_input_ldrgb_set_managed*) k_obj)->effect,
+           (( k_input_ldrgb_set_managed*) k_obj)->color_override,
+           (( k_input_ldrgb_set_managed*) k_obj)->intensity_override,
+           (( k_input_ldrgb_set_managed*) k_obj)->duration,
+           (( k_input_ldrgb_set_managed*) k_obj)->loop,
+           (( k_input_ldrgb_set_managed*) k_obj)->loop_delay,
+           (( k_input_ldrgb_set_managed*) k_obj)->autostart
     );
     //*packet_size = sizeof( k_input_ldrgb_set_managed);
     break;
   case K_INPUT_LDRGB_CHANGE_MODE:
     strcpy(format, K_INPUT_LDRGB_CHANGE_MODE_PARAMS);
     kitra_generate_packet(buffer_tx,MAX_BUFFER_SIZE,format,optional_mask,
-           &(( k_input_ldrgb_change_mode*) k_obj)->id,
-           &(( k_input_ldrgb_change_mode*) k_obj)->pin,
-           &(( k_input_ldrgb_change_mode*) k_obj)->mode
+           (( k_input_ldrgb_change_mode*) k_obj)->id,
+           (( k_input_ldrgb_change_mode*) k_obj)->pin,
+           (( k_input_ldrgb_change_mode*) k_obj)->mode
     );
     //*packet_size = sizeof( k_input_ldrgb_change_mode);
     break;
