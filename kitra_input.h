@@ -403,7 +403,7 @@ typedef struct{
   uint16_t full_scale;
 }k_input_pos_configuration;
 #define K_INPUT_POS_CONFIGURATION_N_PARAMS 7
-static const char* K_INPUT_POS_CONFIGURATION_PARAMS = "%d,%hhd,%hX,%hhd,%d,%hd,%hd";
+static const char* K_INPUT_POS_CONFIGURATION_PARAMS = "%d,%hhd,%hX,%hhd,%d,%hd,%hX";
 
 typedef struct{
   uint32_t id;
