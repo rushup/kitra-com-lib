@@ -440,9 +440,10 @@ typedef struct{
   uint8_t threshold_up_enabled;
   uint8_t threshold_down_enabled;
   float threshold_value;
+  uint32_t notification_freq;
 }k_input_env_enable_notification;
-#define K_INPUT_ENV_ENABLE_NOTIFICATION_N_PARAMS 2
-static const char* K_INPUT_ENV_ENABLE_NOTIFICATION_PARAMS = "%d,%hhd,%hhd,%hhd,%hhd,%f";
+#define K_INPUT_ENV_ENABLE_NOTIFICATION_N_PARAMS 7
+static const char* K_INPUT_ENV_ENABLE_NOTIFICATION_PARAMS = "%d,%hhd,%hhd,%hhd,%hhd,%f,%d";
 
 //MIC
 typedef struct{

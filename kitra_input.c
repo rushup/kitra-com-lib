@@ -459,7 +459,8 @@ eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, ui
            &((k_input_env_enable_notification*) k_obj)->sensor,
            &((k_input_env_enable_notification*) k_obj)->threshold_up_enabled,
            &((k_input_env_enable_notification*) k_obj)->threshold_down_enabled,
-           &((k_input_env_enable_notification*) k_obj)->threshold_value
+           &((k_input_env_enable_notification*) k_obj)->threshold_value,
+           &((k_input_env_enable_notification*) k_obj)->notification_freq
     );
     *packet_size = sizeof(k_input_env_enable_notification);
     break;
