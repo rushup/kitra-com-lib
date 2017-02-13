@@ -36,8 +36,10 @@ eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, ui
     return PARSE_BAD_CHECKSUM;
 #endif
   
+  memset(format,0,80);
   sscanf(packet,"%*6[^,],%u",&id);
   strcat(format,"%*s,");
+  
   switch(id)
   {
 #ifdef KITRA_SERVER
@@ -481,6 +483,8 @@ eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, ui
     generate_ris = kitra_generate(packet,format,optional_mask,
            &((k_input_mic_get_localization_angle*) k_obj)->id
     );
+    if(((k_input_mic_get_localization_angle*) k_obj)->id == 0)
+      asm("nop");
     *packet_size = sizeof(k_input_mic_get_localization_angle);
     break;
   //BUZZER
