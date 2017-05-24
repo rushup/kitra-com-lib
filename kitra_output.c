@@ -23,6 +23,7 @@ bool k_send_packet(void* k_obj, uint32_t optional_mask)
   char cks[3];
   uint32_t len;
   uint32_t id = ((k_output_power_up*) k_obj)->id; //take just id
+  bool override_len = false;
   
   while(tx_lock == true); //not finished trasmitting
   
@@ -271,6 +272,19 @@ bool k_send_packet(void* k_obj, uint32_t optional_mask)
              ((k_output_mic_get_localization_notification*) k_obj)->id,
              ((k_output_mic_get_localization_notification*) k_obj)->angle
     );
+    break;
+  case K_OUTPUT_MIC_SAMPLE_NOTIFICATION:
+    memcpy(format,K_OUTPUT_MIC_SAMPLE_NOTIFICATION_PARAMS,strlen(K_OUTPUT_MIC_SAMPLE_NOTIFICATION_PARAMS) - 5); //skip %b for raw data
+    format[strlen(K_OUTPUT_MIC_SAMPLE_NOTIFICATION_PARAMS) - 5] = 0;
+    kitra_generate_packet(buffer_tx,MAX_BUFFER_SIZE,format,optional_mask,
+             ((k_output_mic_sample_notification*) k_obj)->id,
+             ((k_output_mic_sample_notification*) k_obj)->size
+    );
+    buffer_tx[strlen(buffer_tx)] = ',';
+    len = strlen(buffer_tx);
+    memcpy(buffer_tx + len,((k_output_mic_sample_notification*) k_obj)->data, ((k_output_mic_sample_notification*) k_obj)->size);
+    len += ((k_output_mic_sample_notification*) k_obj)->size;
+    override_len = true;
     break;
   //I2C
   case K_OUTPUT_ENV_THRESHOLD_NOTIFICATION:
@@ -724,11 +738,42 @@ bool k_send_packet(void* k_obj, uint32_t optional_mask)
     kitra_generate_packet(buffer_tx,MAX_BUFFER_SIZE,format,optional_mask,
            ((k_input_mic_enable_disable*) k_obj)->id,
            ((k_input_mic_enable_disable*) k_obj)->mode,
-           ((k_input_mic_enable_disable*) k_obj)->filter_mask,
+           ((k_input_mic_enable_disable*) k_obj)->mic_out_sel_1_2,
            ((k_input_mic_enable_disable*) k_obj)->notification_enabled,
-           ((k_input_mic_enable_disable*) k_obj)->notification_freq
+           ((k_input_mic_enable_disable*) k_obj)->notification_freq,
+           ((k_input_mic_enable_disable*) k_obj)->bf_alg_type,
+           ((k_input_mic_enable_disable*) k_obj)->bf_gain
     );
     //*packet_size = sizeof(k_input_mic_enable_disable);
+    break;
+  //LED NEOPIXEl
+  case K_INPUT_LED_NEOPIXEL_ENABLE_DISABLE:
+    strcpy(format, K_INPUT_LED_NEOPIXEL_ENABLE_DISABLE_PARAMS);
+    kitra_generate_packet(buffer_tx,MAX_BUFFER_SIZE,format,optional_mask,
+           ((k_input_led_neopixel_enable_disable*) k_obj)->id,
+           ((k_input_led_neopixel_enable_disable*) k_obj)->enabled,
+           ((k_input_led_neopixel_enable_disable*) k_obj)->nleds
+    );
+    //*packet_size = sizeof(k_input_led_neopixel_enable_disable);
+    break;
+  case K_INPUT_LED_NEOPIXEL_SET:
+    strcpy(format, K_INPUT_LED_NEOPIXEL_SET_PARAMS);
+    kitra_generate_packet(buffer_tx,MAX_BUFFER_SIZE,format,optional_mask,
+           ((k_input_led_neopixel_set*) k_obj)->id,
+           ((k_input_led_neopixel_set*) k_obj)->pin,
+           ((k_input_led_neopixel_set*) k_obj)->color,
+           ((k_input_led_neopixel_set*) k_obj)->intensity,
+           ((k_input_led_neopixel_set*) k_obj)->autostart
+    );
+    //*packet_size = sizeof(k_input_led_neopixel_set);
+    break;
+  case K_INPUT_LED_NEOPIXEL_CHANGE_MODE:
+    strcpy(format, K_INPUT_LED_NEOPIXEL_CHANGE_MODE_PARAMS);
+    kitra_generate_packet(buffer_tx,MAX_BUFFER_SIZE,format,optional_mask,
+           ((k_input_led_neopixel_change_mode*) k_obj)->id,
+           ((k_input_led_neopixel_change_mode*) k_obj)->mode
+    );
+    //*packet_size = sizeof(k_input_led_neopixel_change_mode);
     break;
   case K_INPUT_MIC_GET_LOCALIZATION_ANGLE:
     strcpy(format, K_INPUT_MIC_GET_LOCALIZATION_ANGLE_PARAMS);
@@ -786,19 +831,21 @@ bool k_send_packet(void* k_obj, uint32_t optional_mask)
   default:
     return false;
   }
-  len = strlen(buffer_tx);
+  
+  if(override_len == false)
+    len = strlen(buffer_tx);
   
   if(len < (MAX_BUFFER_SIZE - 6))
   {
     //add checksum and send
-    k_get_checksum(buffer_tx + 1,strlen(buffer_tx),cks);
+    k_get_checksum(buffer_tx + 1,len,cks);
     buffer_tx[len] = '*';
     memcpy(buffer_tx + len + 1, cks, 2 );
     memcpy(buffer_tx + len + 3, "\r\n" , 2 );
     buffer_tx[len + 5] = 0;
     
     tx_lock = true;
-    kitra_platform_send(buffer_tx,strlen(buffer_tx));
+    kitra_platform_send(buffer_tx,len + 5);
 
     return true;
   }

@@ -67,10 +67,13 @@ typedef enum{
   K_INPUT_ENV_ENABLE_NOTIFICATION = 5103,
   K_INPUT_MIC_ENABLE_DISABLE = 5111,
   K_INPUT_MIC_GET_LOCALIZATION_ANGLE = 5112,
+  K_INPUT_LED_NEOPIXEL_ENABLE_DISABLE = 5121,
+  K_INPUT_LED_NEOPIXEL_SET = 5122,
+  K_INPUT_LED_NEOPIXEL_CHANGE_MODE = 5123,
   K_INPUT_BUZZ_ENABLE_DISABLE = 5141,
   K_INPUT_BUZZ_CHANGE_STATE = 5142,
   K_INPUT_I2C_READ = 5151,
-  K_INPUT_I2C_WRITE = 5152
+  K_INPUT_I2C_WRITE = 5152,
 }einput_cmd;
 
 //SYSTEM
@@ -449,18 +452,47 @@ static const char* K_INPUT_ENV_ENABLE_NOTIFICATION_PARAMS = "%d,%hhd,%hhd,%hhd,%
 typedef struct{
   uint32_t id;
   uint8_t mode;
-  uint8_t filter_mask;
+  uint8_t mic_out_sel_1_2;
   uint8_t notification_enabled;
   uint32_t notification_freq;
+  uint8_t  bf_alg_type;
+  uint8_t  bf_gain;
 }k_input_mic_enable_disable;
-#define K_INPUT_MIC_ENABLE_DISABLE_N_PARAMS 5
-static const char* K_INPUT_MIC_ENABLE_DISABLE_PARAMS = "%d,%hhd,%hhX,%hhd,%d";
+#define K_INPUT_MIC_ENABLE_DISABLE_N_PARAMS 7
+static const char* K_INPUT_MIC_ENABLE_DISABLE_PARAMS = "%d,%hhd,%hhX,%hhd,%d,%hhd,%hhd";
+
 
 typedef struct{
   uint32_t id;
 }k_input_mic_get_localization_angle;
 #define K_INPUT_MIC_GET_LOCALIZATION_ANGLE_N_PARAMS 1
 static const char* K_INPUT_MIC_GET_LOCALIZATION_ANGLE_PARAMS = "%d";
+
+//LED NEOPIXEL
+typedef struct{
+  uint32_t id;
+  uint8_t enabled;
+  uint16_t nleds;
+}k_input_led_neopixel_enable_disable;
+#define K_INPUT_LED_NEOPIXEL_ENABLE_DISABLE_N_PARAMS 3
+static const char* K_INPUT_LED_NEOPIXEL_ENABLE_DISABLE_PARAMS = "%d,%hhd,%hd";
+
+typedef struct{
+  uint32_t id;
+  uint16_t pin;
+  uint32_t color;
+  uint8_t intensity;
+  uint8_t autostart;
+}k_input_led_neopixel_set;
+#define K_INPUT_LED_NEOPIXEL_SET_N_PARAMS 5
+static const char* K_INPUT_LED_NEOPIXEL_SET_PARAMS = "%d,%hd,%X,%hhd,%hhd";
+
+typedef struct{
+  uint32_t id;
+  uint8_t mode;
+}k_input_led_neopixel_change_mode;
+#define K_INPUT_LED_NEOPIXEL_CHANGE_MODE_N_PARAMS 2
+static const char* K_INPUT_LED_NEOPIXEL_CHANGE_MODE_PARAMS = "%d,%hhd";
 
 //BUZZER
 typedef struct{
@@ -515,6 +547,7 @@ static const char* K_INPUT_POS_PEAK_DETECTOR_PARAMS = "%d";
 
 
 eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, uint32_t* optional_mask);
+eparse_result k_parse_packet_dynamic(char* packet,void* k_obj, uint32_t* packet_size, uint32_t* optional_mask);
 eparse_result k_parse_packet_safe(const char* _packet,void* k_obj, uint32_t* packet_size, uint32_t* optional_mask);
 
 #ifdef __cplusplus

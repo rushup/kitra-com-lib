@@ -38,6 +38,7 @@ typedef enum{
   K_OUTPUT_ENV_THRESHOLD_NOTIFICATION = 673,
   K_OUTPUT_MIC_GET_LOCALIZATION_RESPONSE = 681,
   K_OUTPUT_MIC_LOCALIZATION_NOTIFICATION = 682,
+  K_OUTPUT_MIC_SAMPLE_NOTIFICATION = 683,
   K_OUTPUT_I2C_READ_RESPONSE = 691
 #if ADD_MARZIO_CODE == 1
   K_OUTPUT_POS_PEAK_DETECTOR_NOTI = 9051
@@ -298,6 +299,14 @@ typedef struct{
 }k_output_mic_get_localization_notification;
 #define K_OUTPUT_MIC_LOCALIZATION_NOTIFICATION_N_PARAMS 2
 static const char*  K_OUTPUT_MIC_LOCALIZATION_NOTIFICATION_PARAMS = "%d,%hd";
+
+typedef struct{
+  uint32_t  id;
+  uint16_t  size;
+  char*     data;
+}k_output_mic_sample_notification;
+#define K_OUTPUT_MIC_SAMPLE_NOTIFICATION_N_PARAMS 3
+static const char* K_OUTPUT_MIC_SAMPLE_NOTIFICATION_PARAMS = "%d,%hd,%16b";
 //I2C
 
 

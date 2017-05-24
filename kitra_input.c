@@ -472,9 +472,11 @@ eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, ui
     generate_ris = kitra_generate(packet,format,optional_mask,
            &((k_input_mic_enable_disable*) k_obj)->id,
            &((k_input_mic_enable_disable*) k_obj)->mode,
-           &((k_input_mic_enable_disable*) k_obj)->filter_mask,
+           &((k_input_mic_enable_disable*) k_obj)->mic_out_sel_1_2,
            &((k_input_mic_enable_disable*) k_obj)->notification_enabled,
-           &((k_input_mic_enable_disable*) k_obj)->notification_freq
+           &((k_input_mic_enable_disable*) k_obj)->notification_freq,
+           &((k_input_mic_enable_disable*) k_obj)->bf_alg_type,
+           &((k_input_mic_enable_disable*) k_obj)->bf_gain
     );
     *packet_size = sizeof(k_input_mic_enable_disable);
     break;
@@ -483,9 +485,36 @@ eparse_result k_parse_packet(char* packet,void* k_obj, uint32_t* packet_size, ui
     generate_ris = kitra_generate(packet,format,optional_mask,
            &((k_input_mic_get_localization_angle*) k_obj)->id
     );
-    if(((k_input_mic_get_localization_angle*) k_obj)->id == 0)
-      asm("nop");
     *packet_size = sizeof(k_input_mic_get_localization_angle);
+    break;
+  //LED NEOPIXEl
+  case K_INPUT_LED_NEOPIXEL_ENABLE_DISABLE:
+    strcat(format, K_INPUT_LED_NEOPIXEL_ENABLE_DISABLE_PARAMS);
+    generate_ris = kitra_generate(packet,format,optional_mask,
+           &((k_input_led_neopixel_enable_disable*) k_obj)->id,
+           &((k_input_led_neopixel_enable_disable*) k_obj)->enabled,
+           &((k_input_led_neopixel_enable_disable*) k_obj)->nleds
+    );
+    *packet_size = sizeof(k_input_led_neopixel_enable_disable);
+    break;
+  case K_INPUT_LED_NEOPIXEL_SET:
+    strcat(format, K_INPUT_LED_NEOPIXEL_SET_PARAMS);
+    generate_ris = kitra_generate(packet,format,optional_mask,
+           &((k_input_led_neopixel_set*) k_obj)->id,
+           &((k_input_led_neopixel_set*) k_obj)->pin,
+           &((k_input_led_neopixel_set*) k_obj)->color,
+           &((k_input_led_neopixel_set*) k_obj)->intensity,
+           &((k_input_led_neopixel_set*) k_obj)->autostart
+    );
+    *packet_size = sizeof(k_input_led_neopixel_set);
+    break;
+  case K_INPUT_LED_NEOPIXEL_CHANGE_MODE:
+    strcat(format, K_INPUT_LED_NEOPIXEL_CHANGE_MODE_PARAMS);
+    generate_ris = kitra_generate(packet,format,optional_mask,
+           &((k_input_led_neopixel_change_mode*) k_obj)->id,
+           &((k_input_led_neopixel_change_mode*) k_obj)->mode
+    );
+    *packet_size = sizeof(k_input_led_neopixel_change_mode);
     break;
   //BUZZER
   case K_INPUT_BUZZ_ENABLE_DISABLE:
